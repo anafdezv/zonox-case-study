@@ -1,10 +1,11 @@
+import { CardOptionsProps } from '@/components';
 import React from 'react';
 
-export interface CardsInputProps {
+export interface CardsMultiInputProps {
     label: string;
     showLabel?: boolean;
-    onChange: (value: any) => void;
-    defaultValue?: any;
+    onChange: (value: string[]) => void;
+    defaultValue?: any[];
     error?: boolean;
     errorMessage?: string;
     name: string;
@@ -14,21 +15,13 @@ export interface CardsInputProps {
     options: CardOptionsProps[];
 }
 
-export type CardOptionsProps = {
-    title: string;
-    value: any;
-    icon?: JSX.Element;
-    name: string;
-    subLabel?: string;
-};
-
-export const CardsInput = React.forwardRef<HTMLInputElement, CardsInputProps>(
+export const CardsMultiInput = React.forwardRef<HTMLInputElement, CardsMultiInputProps>(
     (
         {
             label,
             showLabel = true,
             onChange,
-            defaultValue,
+            defaultValue = [],
             error = false,
             errorMessage = 'form.error.required',
             name,
@@ -39,6 +32,17 @@ export const CardsInput = React.forwardRef<HTMLInputElement, CardsInputProps>(
         },
         ref,
     ) => {
+        const handleToggleSelection = (value: any) => {
+            if (defaultValue.includes(value)) {
+                const newValue = defaultValue.filter((val) => val !== value);
+                onChange(newValue);
+            } else {
+                defaultValue ? onChange([...defaultValue, value]) : onChange([value]);
+            }
+        };
+
+        const isOptionSelected = (value: any) => defaultValue.includes(value);
+
         return (
             <div className="w-full flex flex-col gap-4">
                 <label
@@ -55,12 +59,12 @@ export const CardsInput = React.forwardRef<HTMLInputElement, CardsInputProps>(
                     {options.map((o) => (
                         <button
                             key={`${o.name}-${o.value}`}
-                            onClick={() => onChange(o.value)}
+                            onClick={() => handleToggleSelection(o.value)}
                             disabled={disabled}
                             type="button"
                             className={` ${style === 'horizontal' ? 'flex-col justify-center  text-center' : 'justify-start  text-start'}
                             flex items-center gap-2 w-full px-4 py-2 rounded-lg cursor-pointer border  ${
-                                o.value === defaultValue
+                                isOptionSelected(o.value)
                                     ? 'text-blue-800 border-2 border-blue-600 bg-blue-50'
                                     : 'border-gray-300  hover:text-gray-700 text-gray-600 bg-gray-50 hover:bg-gray-100 transition-all'
                             }`}
@@ -68,7 +72,7 @@ export const CardsInput = React.forwardRef<HTMLInputElement, CardsInputProps>(
                             {o.icon && (
                                 <span
                                     className={` border-2 rounded-full h-8 w-8 p-1.5 flex items-center justify-center text-xl ${
-                                        o.value === defaultValue
+                                        isOptionSelected(o.value)
                                             ? 'text-blue-600 border-blue-100 bg-blue-200'
                                             : 'border-gray-100  text-gray-600 bg-gray-200 '
                                     }`}

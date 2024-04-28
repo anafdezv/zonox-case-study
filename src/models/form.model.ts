@@ -15,4 +15,5 @@ export type FormDataModel = {
     number_of_dwellers?: number;
     list_of_appliances?: APPLIANCE[];
     monthly_avergage_cost?: number;
+    has_bill?: boolean;
 };

@@ -1,4 +1,4 @@
-import { CardsInput } from '@/components/form/CardInput';
+import { CardsInput } from '@/components';
 import { SEASON_DISCRIMINATION, TIME_DISCRIMINATION } from '@/enums';
 import { ConsumeMomentIcons, ConsumeMomentString, SeasonIcons, SeasonString } from '@/helpers';
 import { useEnumValues } from '@/hooks';
@@ -14,7 +14,7 @@ export const StepConsumptionCurve = ({
     onSave: () => void;
 }) => {
     return (
-        <div className="flex flex-col gap-10 px-4 py-8 w-full max-w-[400px] mx-auto">
+        <div className="flex flex-col gap-10 px-4 py-8 w-full max-w-[480px] mx-auto">
             <CardsInput
                 label={'¿Cuando consumes más energía?'}
                 onChange={(e) => {
@@ -51,13 +51,13 @@ export const StepConsumptionCurve = ({
                 })}
             />
             <div className="flex flex-col-reverse lg:flex-row w-full gap-2">
-                <button className="btn btn-outline" disabled>
+                <button className="btn btn-outline w-full" disabled>
                     Anterior
                 </button>
                 <button
                     onClick={onSave}
                     disabled={!data?.season_discrimination || !data.time_discrimination}
-                    className="btn btn-primary"
+                    className="btn btn-primary w-full"
                 >
                     Siguiente
                 </button>
