@@ -1,16 +1,50 @@
 import { Header, Stepper } from '@/components';
+import { FormDataModel } from '@/models';
+import { StepConsumptionCurve, StepConsumptionModeling } from '@/pages';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export const Form = () => {
     const navigate = useNavigate();
     const [currentStep, setCurrentStep] = useState<number>(0);
+    const [formData, setFormData] = useState<FormDataModel>();
 
     const formSteps = [
         { title: 'Información de consumo' },
         { title: 'Datos de contacto' },
         { title: 'Datos de la vivienda' },
     ];
+
+    const renderStep = () => {
+        switch (currentStep) {
+            case 0:
+                return (
+                    <StepConsumptionCurve
+                        data={formData}
+                        setData={setFormData}
+                        onSave={() => setCurrentStep(currentStep + 1)}
+                    />
+                );
+            case 1:
+                return (
+                    <StepConsumptionModeling
+                        data={formData}
+                        setData={setFormData}
+                        onSave={() => setCurrentStep(currentStep + 1)}
+                    />
+                );
+            case 2:
+                return (
+                    <StepConsumptionModeling
+                        data={formData}
+                        setData={setFormData}
+                        onSave={() => setCurrentStep(currentStep + 1)}
+                    />
+                );
+            default:
+                return <div />;
+        }
+    };
 
     return (
         <div className="h-screen w-screen overflow-hidden landing-bg bg-blue-50 flex flex-col">
@@ -38,8 +72,10 @@ export const Form = () => {
                                       ? '¡Solo necesitamos un poco de información más!'
                                       : '¡Una última pregunta!'}
                             </p>
-                        </div>{' '}
+                        </div>
                     </div>
+                    {/* STEPS */}
+                    {renderStep()}
                 </div>
             </div>
         </div>
