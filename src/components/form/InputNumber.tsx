@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BiErrorCircle } from 'react-icons/bi';
 
 export interface InputNumberProps {
@@ -34,17 +34,28 @@ export const InputNumber = React.forwardRef<HTMLInputElement, InputNumberProps>(
         },
         ref,
     ) => {
+        const [inputValue, setInputValue] = useState<string | undefined>(defaultValue?.toString());
+
         const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-            const inputValue = event.target.value;
-            const formattedValue = formatInputValue(inputValue);
+            const newValue = event.target.value;
+            setInputValue(newValue);
+            const formattedValue = formatInputValue(newValue);
             onChange(Number(formattedValue));
         };
 
-        const formatInputValue = (value: string) => {
+        const handleBlur = () => {
+            const formattedValue = formatInputValue(inputValue);
+            setInputValue(formattedValue);
+            onChange(Number(formattedValue));
+        };
+
+        const formatInputValue = (value: string | undefined) => {
+            if (!value) return '';
+            // Reemplazar comas por puntos para permitir el parseo adecuado
+            const parsedValue = value.replace(',', '.');
             // Aplicar la máscara de entrada para mantener solo dos decimales
-            const regex = /^\d*\.?\d{0,2}/;
-            const match = value.match(regex);
-            return match ? match[0] : '';
+            const roundedValue = parseFloat(parsedValue).toFixed(2);
+            return roundedValue;
         };
 
         return (
@@ -57,16 +68,15 @@ export const InputNumber = React.forwardRef<HTMLInputElement, InputNumberProps>(
                 </label>
                 <div className="w-full relative flex items-center">
                     <div className="w-full h-fit flex items-center">
-                        {' '}
                         <input
                             ref={ref}
-                            type={'number'}
-                            step="0.01"
+                            type={'text'}
+                            onBlur={handleBlur}
                             onChange={handleChange}
                             placeholder={placeholder}
                             name={name}
                             disabled={disabled}
-                            value={defaultValue}
+                            value={inputValue}
                             className={`w-full rounded-l-lg px-3 py-2 border shadow-sm placeholder-gray-500 focus:outline-none focus:border-blue-300 active:border-blue-300 disabled:bg-gray-50 ${
                                 error ? 'border-error-300 pr-8' : 'border-gray-300'
                             }`}

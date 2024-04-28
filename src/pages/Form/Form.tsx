@@ -1,6 +1,7 @@
 import { Header, Stepper } from '@/components';
 import { FormDataModel, InvoiceSimulationsResponse } from '@/models';
 import { StepConsumptionCurve, StepConsumptionModeling, StepMonthCost } from '@/pages';
+import { ShowData } from '@/pages/Form/components/ShowData';
 import { getInvoiceSimulations } from '@/services';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -52,8 +53,12 @@ export const Form = () => {
 
     const handleSendData = async () => {
         if (!formData) return;
-        await getInvoiceSimulations(formData).then((res) => setResponseData(res));
+        await getInvoiceSimulations(formData).then((res) =>
+            setResponseData(res.invoice_simulations),
+        );
     };
+
+    console.log(responseData);
 
     return (
         <div className="h-screen w-screen overflow-hidden landing-bg bg-blue-50 flex flex-col">
@@ -65,10 +70,12 @@ export const Form = () => {
                 }
             />
             {responseData ? (
-                <></>
+                <div className="w-full h-[calc(100%-75px)] overflow-hidden">
+                    <ShowData data={responseData} />
+                </div>
             ) : (
                 <div className="w-full h-[calc(100%-75px)] lg:py-8 lg:px-4 overflow-hidden">
-                    <div className="w-full h-full lg:max-w-2xl bg-white mx-auto lg:shadow flex-flex-col lg:rounded-lg overflow-y-scroll">
+                    <div className="w-full h-full lg:max-w-2xl bg-white mx-auto lg:shadow flex flex-col lg:rounded-lg overflow-y-scroll">
                         <div className="hidden lg:flex h-2 min-h-2 bg-blue-600" />
                         {/* HEADER */}
                         <div className="px-5 py-4 w-full flex flex-col gap-4 items-center border-b border-gray-200  ">
