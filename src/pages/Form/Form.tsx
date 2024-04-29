@@ -1,4 +1,4 @@
-import { Header, Stepper } from '@/components';
+import { Header, Spinner, Stepper } from '@/components';
 import { FormDataModel, InvoiceSimulationsResponse } from '@/models';
 import { StepConsumptionCurve, StepConsumptionModeling, StepMonthCost } from '@/pages';
 import { ShowData } from '@/pages/Form/components/ShowData';
@@ -11,7 +11,7 @@ export const Form = () => {
     const [currentStep, setCurrentStep] = useState<number>(0);
     const [formData, setFormData] = useState<FormDataModel>();
     const [responseData, setResponseData] = useState<InvoiceSimulationsResponse[]>();
-
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const formSteps = [
         { title: 'Información de consumo' },
         { title: 'Información de la vivienda' },
@@ -53,12 +53,12 @@ export const Form = () => {
 
     const handleSendData = async () => {
         if (!formData) return;
-        await getInvoiceSimulations(formData).then((res) =>
-            setResponseData(res.invoice_simulations),
-        );
+        setIsLoading(true);
+        await getInvoiceSimulations(formData)
+            .then((res) => setResponseData(res.invoice_simulations))
+            .catch((err) => console.error(err))
+            .finally(() => setIsLoading(false));
     };
-
-    console.log(responseData);
 
     return (
         <div className="h-screen w-screen overflow-hidden landing-bg bg-blue-50 flex flex-col">
@@ -69,7 +69,14 @@ export const Form = () => {
                     </button>
                 }
             />
-            {responseData ? (
+            {isLoading ? (
+                <div className="flex flex-col m-auto items-center justify-center">
+                    <p className="text-lg font-semibold">
+                        ¡Estamos consiguiendote las mejores tarifas!
+                    </p>
+                    <Spinner />
+                </div>
+            ) : responseData ? (
                 <div className="w-full h-[calc(100%-75px)] overflow-hidden">
                     <ShowData data={responseData} />
                 </div>

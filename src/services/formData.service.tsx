@@ -2,9 +2,8 @@ import { FormDataModel } from '@/models';
 import axios from 'axios';
 
 export const getInvoiceSimulations = async (data: FormDataModel): Promise<any> => {
-    const baseUrl = 'https://cors-anywhere.herokuapp.com/https://zonox.es/invoice-simulations.json';
+    const baseUrl = 'https://zonox.es/invoice-simulations.json';
 
-    // Construir parámetros de consulta
     const queryParams = new URLSearchParams();
 
     if (data.has_bill === true && data.monthly_avergage_consumption !== undefined) {
