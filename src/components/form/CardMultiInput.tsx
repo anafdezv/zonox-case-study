@@ -54,7 +54,7 @@ export const CardsMultiInput = React.forwardRef<HTMLInputElement, CardsMultiInpu
 
                 <div
                     ref={ref}
-                    className={`w-full flex gap-2 ${style === 'horizontal_mini' ? 'flex' : style === 'horizontal' ? 'grid grid-cols-2' : 'flex-col'}`}
+                    className={`w-full flex gap-2 ${style === 'horizontal_mini' ? 'grid grid-cols-2 md:flex' : style === 'horizontal' ? 'grid grid-cols-1 md:grid-cols-2' : 'flex-col'}`}
                 >
                     {options.map((o) => (
                         <button
@@ -62,7 +62,7 @@ export const CardsMultiInput = React.forwardRef<HTMLInputElement, CardsMultiInpu
                             onClick={() => handleToggleSelection(o.value)}
                             disabled={disabled}
                             type="button"
-                            className={` ${style === 'horizontal' ? 'flex-col justify-center  text-center' : 'justify-start  text-start'}
+                            className={` ${style === 'horizontal' ? 'flex-row md:flex-col justify-start md:justify-center text-start md:text-center' : 'justify-start  text-start'}
                             flex items-center gap-2 w-full px-4 py-2 rounded-lg cursor-pointer border  ${
                                 isOptionSelected(o.value)
                                     ? 'text-blue-800 border-2 border-blue-600 bg-blue-50'

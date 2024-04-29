@@ -50,7 +50,7 @@ export const CardsInput = React.forwardRef<HTMLInputElement, CardsInputProps>(
 
                 <div
                     ref={ref}
-                    className={`w-full flex gap-2 ${style === 'horizontal_mini' ? 'flex' : style === 'horizontal' ? 'grid grid-cols-2' : 'flex-col'}`}
+                    className={`w-full flex gap-2 ${style === 'horizontal_mini' ? 'grid grid-cols-2 md:flex' : style === 'horizontal' ? 'grid grid-cols-1 md:grid-cols-2' : 'flex-col'}`}
                 >
                     {options.map((o) => (
                         <button
@@ -58,7 +58,7 @@ export const CardsInput = React.forwardRef<HTMLInputElement, CardsInputProps>(
                             onClick={() => onChange(o.value)}
                             disabled={disabled}
                             type="button"
-                            className={` ${style === 'horizontal' ? 'flex-col justify-center  text-center' : 'justify-start  text-start'}
+                            className={` ${style === 'horizontal' ? 'flex-row md:flex-col justify-start md:justify-center text-start md:text-center' : 'justify-start  text-start'}
                             flex items-center gap-2 w-full px-4 py-2 rounded-lg cursor-pointer border  ${
                                 o.value === defaultValue
                                     ? 'text-blue-800 border-2 border-blue-600 bg-blue-50'
@@ -77,7 +77,7 @@ export const CardsInput = React.forwardRef<HTMLInputElement, CardsInputProps>(
                                 </span>
                             )}
                             <p
-                                className={`${style === 'horizontal_mini' ? 'text-center' : ''} w-full text-sm lg:text-base font-semibold pt-0.5`}
+                                className={`${style === 'horizontal_mini' ? 'text-center  justify-center' : ''} w-full flex gap-1 text-sm lg:text-base font-semibold pt-0.5`}
                             >
                                 {o.title}{' '}
                                 {o?.subLabel && (

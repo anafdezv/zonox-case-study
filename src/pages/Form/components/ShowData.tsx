@@ -5,7 +5,7 @@ import { useState } from 'react';
 export const ShowData = ({ data }: { data: InvoiceSimulationsResponse[] }) => {
     const [isOpenModal, setIsOpenModal] = useState(false);
     return (
-        <div className="w-full h-full flex flex-col items-center py-8 lg:justify-center gap-8 bg-blue-600 lg:bg-white relative overflow-y-scroll">
+        <div className="w-full h-full flex flex-col items-center py-8 lg:justify-center gap-8 bg-blue-500 lg:bg-blue-200  relative overflow-y-scroll">
             <ContractModal isOpen={isOpenModal} onClose={() => setIsOpenModal(false)} />{' '}
             <p className="z-[10] text-center text-2xl lg:text-5xl font-semibold text-white">
                 Estas son las mejores tarifas para ti
