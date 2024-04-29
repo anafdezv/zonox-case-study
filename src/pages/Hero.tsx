@@ -45,7 +45,7 @@ export const Hero: React.FC = () => {
                         </button>
                     </div>
                 </div>
-                <div className="absolute -bottom-80 flex lg:hidden">
+                <div className="ml-8 flex lg:hidden">
                     <img className="object-cover" src={'/images/landing_mobile.png'} />
                 </div>
                 <div className="absolute -right-10 top-20 hidden lg:flex">
