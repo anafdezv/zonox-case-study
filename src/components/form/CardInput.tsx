@@ -77,9 +77,9 @@ export const CardsInput = React.forwardRef<HTMLInputElement, CardsInputProps>(
                                 </span>
                             )}
                             <p
-                                className={`${style === 'horizontal_mini' ? 'text-center  justify-center' : ''} w-full flex gap-1 text-sm lg:text-base font-semibold pt-0.5`}
+                                className={`${style === 'horizontal_mini' ? 'text-center  justify-center' : style === 'horizontal' ? 'justify-start md:justify-center' : ''} w-full flex gap-1 text-center items-center text-sm lg:text-base font-semibold pt-0.5`}
                             >
-                                {o.title}{' '}
+                                {o.title}
                                 {o?.subLabel && (
                                     <span className="font-normal text-gray-500 truncate">
                                         {o?.subLabel}
